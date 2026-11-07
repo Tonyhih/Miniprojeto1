@@ -5,6 +5,7 @@ import HeroSection from './components/HeroSection.vue'
 import CardSection from './components/CardSection.vue'
 import AppModal from './components/AppModal.vue'
 import AppFooter from './components/AppFooter.vue'
+import AppIcon from './components/AppIcon.vue'
 import { perfil, navegacao, quemSouEu, oQueFaco, hobbies, redesSociais } from './data/cv.js'
 
 // Estado da janela modal. O item é mantido depois de fechar
@@ -32,6 +33,7 @@ function fecharModal() {
 
     <CardSection
       :id="oQueFaco.id"
+      :sobretitulo="oQueFaco.sobretitulo"
       :titulo="oQueFaco.titulo"
       :intro="oQueFaco.intro"
       :itens="oQueFaco.itens"
@@ -40,10 +42,11 @@ function fecharModal() {
 
     <CardSection
       :id="hobbies.id"
+      :sobretitulo="hobbies.sobretitulo"
       :titulo="hobbies.titulo"
       :intro="hobbies.intro"
       :itens="hobbies.itens"
-      variante="alt"
+      variante="escura"
       @abrir="abrirModal"
     />
   </main>
@@ -53,12 +56,20 @@ function fecharModal() {
   <AppModal
     :aberta="modalAberta"
     :titulo="itemAtivo?.titulo ?? ''"
+    :etiqueta="itemAtivo?.etiqueta ?? ''"
     @fechar="fecharModal"
   >
+    <template v-if="itemAtivo" #icone>
+      <AppIcon :nome="itemAtivo.icone" :tamanho="26" />
+    </template>
+
     <template v-if="itemAtivo">
       <p class="modal__resumo">{{ itemAtivo.resumo }}</p>
       <ul class="modal__lista">
-        <li v-for="(detalhe, i) in itemAtivo.detalhes" :key="i">{{ detalhe }}</li>
+        <li v-for="(detalhe, i) in itemAtivo.detalhes" :key="i">
+          <AppIcon nome="check" :tamanho="18" />
+          <span>{{ detalhe }}</span>
+        </li>
       </ul>
     </template>
   </AppModal>

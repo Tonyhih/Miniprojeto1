@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 const props = defineProps({
   nome: { type: String, required: true },
@@ -7,11 +7,30 @@ const props = defineProps({
 })
 
 const ativo = ref('')
+const progresso = ref(0) // 0 a 1: quanto da página já foi percorrido
 let observer = null
+
+const iniciais = computed(() =>
+  props.nome
+    .split(' ')
+    .filter(Boolean)
+    .map((parte) => parte[0])
+    .filter((_, i, arr) => i === 0 || i === arr.length - 1)
+    .join('')
+)
+
+function atualizarProgresso() {
+  const max = document.documentElement.scrollHeight - window.innerHeight
+  progresso.value = max > 0 ? Math.min(1, window.scrollY / max) : 0
+}
 
 // Destaca no menu a secção que está visível, com IntersectionObserver.
 // A "linha" de deteção fica a cerca de 35% do topo do ecrã.
 onMounted(() => {
+  atualizarProgresso()
+  window.addEventListener('scroll', atualizarProgresso, { passive: true })
+  window.addEventListener('resize', atualizarProgresso, { passive: true })
+
   if (!('IntersectionObserver' in window)) return
 
   observer = new IntersectionObserver(
@@ -29,7 +48,11 @@ onMounted(() => {
   })
 })
 
-onBeforeUnmount(() => observer?.disconnect())
+onBeforeUnmount(() => {
+  observer?.disconnect()
+  window.removeEventListener('scroll', atualizarProgresso)
+  window.removeEventListener('resize', atualizarProgresso)
+})
 
 function irPara(id) {
   ativo.value = id
@@ -40,7 +63,7 @@ function irPara(id) {
   <header class="header">
     <div class="container header__inner">
       <a class="header__marca" href="#quem-sou-eu" @click="irPara('quem-sou-eu')">
-        <span class="header__monograma" aria-hidden="true">AJ</span>
+        <span class="header__monograma" aria-hidden="true">{{ iniciais }}</span>
         <span class="header__nome">{{ nome }}</span>
       </a>
 
@@ -60,5 +83,6 @@ function irPara(id) {
         </ul>
       </nav>
     </div>
+    <span class="header__progresso" :style="{ transform: `scaleX(${progresso})` }" aria-hidden="true"></span>
   </header>
 </template>

@@ -27,19 +27,36 @@ currículo basta editar esse ficheiro.
 |---|---|
 | Vue 3 (Composition API, `<script setup>`) | Componentes, estado reativo, `Teleport`, `Transition` |
 | Vite 6 + `@vitejs/plugin-vue` | Servidor de desenvolvimento e build de produção |
-| HTML semântico | `header`, `nav`, `main`, `section`, `article`, `footer` |
-| CSS puro (variáveis, Grid, Flexbox) | Um único `style.css`, responsivo, sem frameworks |
+| HTML semântico | `header`, `nav`, `main`, `section`, `article`, `footer`, `figure`, `dl` |
+| CSS puro (variáveis, Grid, Flexbox) | Um único `style.css`, responsivo, modo claro e escuro, sem frameworks |
+| Canvas 2D | Animação de fundo da secção inicial, sem bibliotecas |
 | SVG inline | Ícones, sem bibliotecas externas |
+| Google Fonts | Bricolage Grotesque (títulos), Instrument Sans (texto) e JetBrains Mono (rótulos), com fontes do sistema como alternativa |
 
-Não há outras dependências: nem router, nem Tailwind, nem bibliotecas de ícones.
+Não há outras dependências npm: nem router, nem Tailwind, nem bibliotecas de ícones.
+
+### Design
+
+O conceito visual parte da especialização em Física de Partículas:
+
+- **Secção inicial escura** com grelha de papel milimétrico e uma animação em `<canvas>` de
+  trajetórias de partículas carregadas num campo magnético, como numa câmara de bolhas
+  (as de baixa energia descrevem espirais; as de alta energia quase não curvam). A animação
+  só corre quando a secção está visível e fica parada com `prefers-reduced-motion`.
+- **Ficha de perfil** (lista de definições) com especialização, formação e cargo atual.
+- **Cartões** com etiqueta, ícone que roda ao passar o rato e o cartão inteiro clicável.
+- **Hobbies** numa banda azul-marinho, para variar o ritmo da página.
+- **Modal** centrada no computador e em "folha" que sobe do fundo no telemóvel.
+- **Barra de progresso** de leitura no cabeçalho.
+- **Modo escuro** automático, segundo a preferência do sistema operativo.
 
 ### Acessibilidade
 
-- Um único `h1` (nome) e um `h2` por secção.
+- Um único `h1` (nome) e um `h2` por secção; o título da modal também é `h2`.
 - Modal com `role="dialog"`, `aria-modal="true"` e `aria-labelledby`; o foco vai para o
   botão de fechar, fica preso dentro da janela e volta ao botão de origem ao fechar.
 - Estados `:focus-visible` bem visíveis e link "Saltar para o conteúdo".
-- Contraste WCAG AA (texto vermelho `#b3202e` sobre branco ≈ 6,6:1).
+- Contraste WCAG AA nos dois temas (vermelho `#b3202e` sobre o fundo ≈ 6,1:1; sobre fundos escuros usa-se um vermelho mais claro, `#ff7a86`, ≈ 6,6:1).
 - `alt` na fotografia e `aria-label` nos ícones das redes sociais.
 - Respeita `prefers-reduced-motion`.
 
@@ -47,10 +64,10 @@ Não há outras dependências: nem router, nem Tailwind, nem bibliotecas de íco
 
 | Variável | Cor | Uso |
 |---|---|---|
-| `--azul-marinho` | `#0b2a5b` | Ícones dos cartões, links |
-| `--azul-escuro` | `#071b3d` | Cabeçalho, rodapé, títulos |
-| `--vermelho` | `#b3202e` | Destaques, botões, link ativo |
-| `--fundo` | `#f4f6fb` | Fundo da página |
+| `--azul-marinho` | `#0b2a5b` | Banda dos Hobbies, ícones dos cartões |
+| `--azul-escuro` | `#071b3d` | Cabeçalho e secção inicial |
+| `--vermelho` | `#b3202e` | Botões, link ativo, destaques |
+| `--bg` | `#f4f6fb` | Fundo da página (modo claro) |
 
 ## Estrutura de pastas
 
@@ -64,19 +81,21 @@ MiniProj1/
 ├── docs/
 │   └── wireframe.html      # Wireframe de baixa fidelidade
 ├── public/
-│   └── foto.jpg            # Fotografia (substituir pela real)
+│   └── foto.jpg               # Fotografia de perfil (640×800)
 └── src/
-    ├── main.js             # Cria e monta a aplicação Vue
-    ├── App.vue             # Composição da página e estado da modal
-    ├── style.css           # Todos os estilos
+    ├── main.js                # Cria e monta a aplicação Vue
+    ├── App.vue                # Composição da página e estado da modal
+    ├── style.css              # Todos os estilos
     ├── data/
-    │   └── cv.js           # Dados do currículo
+    │   └── cv.js              # Dados do currículo
     └── components/
-        ├── AppHeader.vue   # Cabeçalho fixo + navegação + secção ativa
-        ├── HeroSection.vue # "Quem Sou Eu?" (foto, nome, apresentação)
-        ├── CardSection.vue # Secção de cartões ("O que faço?" e "Hobbies")
-        ├── AppModal.vue    # Janela modal reutilizável
-        └── AppFooter.vue   # Rodapé com a identidade virtual
+        ├── AppHeader.vue      # Cabeçalho fixo, navegação, secção ativa e progresso
+        ├── HeroSection.vue    # Apresentação + "Quem Sou Eu?" (foto, nome, ficha)
+        ├── ParticleTracks.vue # Animação de fundo em <canvas>
+        ├── CardSection.vue    # Secção de cartões ("O que faço?" e "Hobbies")
+        ├── AppModal.vue       # Janela modal reutilizável
+        ├── AppIcon.vue        # Ícones SVG inline
+        └── AppFooter.vue      # Rodapé com contacto e identidade virtual
 ```
 
 ## Instalação e execução
@@ -107,7 +126,7 @@ npm run preview
 
 ### Substituir a fotografia
 
-Coloca a tua fotografia em `public/foto.jpg` (de preferência quadrada, p. ex. 480×480).
+Coloca a tua fotografia em `public/foto.jpg`, de preferência em retrato 4:5 (p. ex. 640×800).
 O nome do ficheiro pode ser alterado em `src/data/cv.js` (`perfil.foto`).
 
 ## Publicação no GitHub Pages

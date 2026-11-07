@@ -3,7 +3,8 @@ import { ref, watch, nextTick, onBeforeUnmount, useId } from 'vue'
 
 const props = defineProps({
   aberta: { type: Boolean, default: false },
-  titulo: { type: String, default: '' }
+  titulo: { type: String, default: '' },
+  etiqueta: { type: String, default: '' } // pequeno rótulo acima do título (opcional)
 })
 
 const emit = defineEmits(['fechar'])
@@ -82,7 +83,15 @@ onBeforeUnmount(() => {
           :aria-labelledby="tituloId"
         >
           <header class="modal__cabecalho">
-            <h2 :id="tituloId" class="modal__titulo">{{ titulo }}</h2>
+            <div class="modal__titulos">
+              <span v-if="$slots.icone" class="modal__icone">
+                <slot name="icone" />
+              </span>
+              <div>
+                <p v-if="etiqueta" class="modal__etiqueta">{{ etiqueta }}</p>
+                <h2 :id="tituloId" class="modal__titulo">{{ titulo }}</h2>
+              </div>
+            </div>
             <button
               ref="botaoFechar"
               type="button"
