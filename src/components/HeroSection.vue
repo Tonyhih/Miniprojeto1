@@ -4,7 +4,7 @@ const props = defineProps({
   secao: { type: Object, required: true } // { id, titulo, paragrafos, destaques }
 })
 
-// Respeita o "base" do Vite (/MiniProj1/) para a imagem em /public
+// Respeita o "base" do Vite (/Miniprojeto1/) para a imagem em /public
 const fotoUrl = `${import.meta.env.BASE_URL}${props.perfil.foto}`
 </script>
 

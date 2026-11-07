@@ -58,7 +58,7 @@ Não há outras dependências: nem router, nem Tailwind, nem bibliotecas de íco
 MiniProj1/
 ├── index.html              # Única página HTML (ponto de entrada)
 ├── package.json
-├── vite.config.js          # base: '/MiniProj1/' para o GitHub Pages
+├── vite.config.js          # base: '/Miniprojeto1/' para o GitHub Pages
 ├── .gitignore
 ├── README.md
 ├── docs/
@@ -91,7 +91,7 @@ npm install
 npm run dev
 ```
 
-Abre o endereço indicado no terminal (normalmente `http://localhost:5173/MiniProj1/`).
+Abre o endereço indicado no terminal (normalmente `http://localhost:5173/Miniprojeto1/`).
 
 Build de produção (gera a pasta `dist/`):
 
@@ -112,10 +112,12 @@ O nome do ficheiro pode ser alterado em `src/data/cv.js` (`perfil.foto`).
 
 ## Publicação no GitHub Pages
 
-> **Importante:** o valor de `base` em `vite.config.js` tem de ser igual ao nome do
-> repositório no GitHub, incluindo maiúsculas e minúsculas. Se o repositório se chamar
-> `Miniprojeto1`, muda para `base: '/Miniprojeto1/'`; caso contrário, o CSS, o JavaScript
-> e a fotografia não carregam.
+> **Importante:** o valor de `base` em `vite.config.js` (`'/Miniprojeto1/'`) tem de ser
+> igual ao nome do repositório no GitHub, incluindo maiúsculas e minúsculas. Se mudares o
+> nome do repositório, atualiza também o `base`; caso contrário, o CSS, o JavaScript e a
+> fotografia não carregam.
+>
+> Endereço do site: `https://tonyhih.github.io/Miniprojeto1/`
 
 ### Opção A — GitHub Actions (recomendada)
 
