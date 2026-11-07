@@ -128,6 +128,19 @@
   th { background: var(--caixa-escura); }
   code { background: var(--caixa); padding: 0 .25rem; border-radius: 3px; font-size: .85em; }
 
+  /* Impressão / PDF: cada parte começa numa página nova */
+  @page { size: A4; margin: 12mm; }
+  @media print {
+    body { padding: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .indice { display: none; }
+    section { break-before: page; }
+    section#mapa, section#mobile { break-before: auto; }
+    h2 { margin-top: 0; }
+    .wf, .telemovel, .modal-demo, .nota, tr, .mapa { break-inside: avoid; }
+    thead { display: table-header-group; }
+    a { text-decoration: none; }
+  }
+
   @media (max-width: 720px) {
     .mapa .ramos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .hero, .palco-grid, .sobre-grid, .cab-sec, .rodape-grid { grid-template-columns: 1fr; }
