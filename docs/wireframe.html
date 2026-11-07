@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wireframe · MiniProj1</title>
+<style>
+  /* Wireframe de baixa fidelidade: só tons de cinzento, caixas e rótulos. */
+  :root {
+    --tinta: #222;
+    --cinza: #777;
+    --linha: #999;
+    --caixa: #e8e8e8;
+    --caixa-escura: #c8c8c8;
+    --papel: #fafafa;
+    --nota: #fff6c7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem 4rem;
+    font: 15px/1.5 "Comic Sans MS", "Segoe Print", "Chalkboard SE", system-ui, sans-serif;
+    color: var(--tinta);
+    background: var(--papel);
+  }
+  .pagina { max-width: 1100px; margin: 0 auto; }
+  h1 { margin: 0 0 .25rem; font-size: 1.8rem; }
+  h2 { margin: 3rem 0 1rem; font-size: 1.3rem; border-bottom: 2px dashed var(--linha); padding-bottom: .3rem; }
+  .sub { color: var(--cinza); margin: 0 0 1rem; }
+  .indice { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; list-style: none; }
+  .indice a { color: var(--tinta); border: 1px solid var(--linha); padding: .2rem .6rem; border-radius: 4px; text-decoration: none; }
+  .indice a:hover, .indice a:focus-visible { background: var(--caixa); outline: 2px solid var(--tinta); }
+
+  /* Elementos genéricos do wireframe */
+  .wf { border: 2px solid var(--tinta); background: #fff; }
+  .bx { border: 2px dashed var(--linha); background: var(--caixa); padding: .6rem; border-radius: 4px; }
+  .rot { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--cinza); }
+  .linha-txt { height: .55rem; background: var(--caixa-escura); border-radius: 3px; margin: .35rem 0; }
+  .linha-txt.c { width: 60%; }
+  .linha-txt.m { width: 80%; }
+  .btn { display: inline-block; border: 2px solid var(--tinta); border-radius: 999px; padding: .15rem .8rem; font-size: .8rem; background: #fff; }
+  .btn.cheio { background: var(--tinta); color: #fff; }
+  .x-img { position: relative; background: var(--caixa); border: 2px solid var(--tinta); overflow: hidden; }
+  .x-img::before, .x-img::after {
+    content: ""; position: absolute; left: 50%; top: 50%; width: 141%; height: 2px; background: var(--linha);
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .x-img::after { transform: translate(-50%, -50%) rotate(-45deg); }
+  .x-img.redonda { border-radius: 50%; }
+  .nota {
+    background: var(--nota); border: 1px solid #d9c56a; padding: .4rem .6rem; font-size: .8rem;
+    border-radius: 4px; margin-top: .5rem;
+  }
+
+  /* 1. Mapa de navegação */
+  .mapa { display: grid; gap: 1rem; justify-items: center; }
+  .mapa .no { border: 2px solid var(--tinta); background: #fff; padding: .5rem 1rem; border-radius: 6px; text-align: center; min-width: 9rem; }
+  .mapa .no.raiz { background: var(--caixa-escura); font-weight: 700; }
+  .mapa .no.modal { border-style: dashed; background: var(--caixa); font-size: .85rem; min-width: 0; }
+  .mapa .seta { color: var(--cinza); font-size: 1.2rem; line-height: 1; }
+  .mapa .ramos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; width: 100%; }
+  .mapa .ramo { display: flex; flex-direction: column; align-items: center; gap: .5rem; }
+  .mapa .modais { display: flex; flex-wrap: wrap; gap: .4rem; justify-content: center; }
+
+  /* 2. Vista desktop */
+  .desktop { max-width: 960px; margin: 0 auto; }
+  .wf-header { display: flex; justify-content: space-between; align-items: center; padding: .6rem 1rem; background: var(--caixa-escura); border-bottom: 2px solid var(--tinta); }
+  .wf-header nav { display: flex; gap: .5rem; }
+  .wf-header nav span { border: 1px solid var(--tinta); padding: .1rem .6rem; border-radius: 999px; font-size: .8rem; background: #fff; }
+  .wf-header nav span.ativo { background: var(--tinta); color: #fff; }
+  .wf-sec { padding: 1.2rem 1rem; border-bottom: 2px dashed var(--linha); }
+  .wf-sec h3 { margin: 0 0 .5rem; font-size: 1rem; }
+  .hero { display: grid; grid-template-columns: 150px 1fr; gap: 1.2rem; align-items: center; }
+  .hero .x-img { width: 150px; height: 150px; }
+  .etiquetas { display: flex; gap: .3rem; flex-wrap: wrap; margin: .5rem 0; }
+  .etiquetas span { border: 1px solid var(--linha); border-radius: 999px; font-size: .7rem; padding: 0 .5rem; background: var(--caixa); }
+  .cartoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+  .cartoes.dois { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 66%; margin: 0 auto; }
+  .cartao { border: 2px solid var(--tinta); border-top-width: 5px; padding: .7rem; background: #fff; border-radius: 4px; }
+  .cartao .icone { width: 32px; height: 32px; border: 2px solid var(--tinta); background: var(--caixa); border-radius: 4px; margin-bottom: .4rem; }
+  .cartao strong { display: block; font-size: .9rem; }
+  .wf-footer { background: var(--caixa-escura); padding: 1rem; text-align: center; }
+  .icones-sociais { display: flex; justify-content: center; gap: .5rem; margin: .5rem 0; }
+  .icones-sociais span { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--tinta); background: #fff; display: grid; place-items: center; font-size: .65rem; }
+
+  /* 3. Modal */
+  .modal-demo { position: relative; max-width: 960px; margin: 0 auto; height: 340px; background: repeating-linear-gradient(45deg, #ddd 0 10px, #e9e9e9 10px 20px); border: 2px solid var(--tinta); display: grid; place-items: center; }
+  .modal-demo .fundo-rot { position: absolute; top: .5rem; left: .7rem; }
+  .modal-caixa { width: min(420px, 90%); background: #fff; border: 2px solid var(--tinta); border-top-width: 6px; padding: 1rem; border-radius: 6px; box-shadow: 6px 6px 0 rgba(0,0,0,.2); }
+  .modal-cab { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
+  .modal-cab .fechar { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--tinta); display: grid; place-items: center; font-weight: 700; }
+  .modal-caixa ul { margin: .5rem 0 0; padding: 0; list-style: none; display: grid; gap: .3rem; }
+  .modal-caixa li { background: var(--caixa); border-radius: 4px; padding: .3rem .5rem; font-size: .8rem; }
+
+  /* 4. Vista mobile */
+  .mobile-wrap { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+  .telemovel { width: 260px; border: 3px solid var(--tinta); border-radius: 24px; padding: 14px 8px; background: #fff; }
+  .ecra { border: 2px solid var(--tinta); height: 520px; overflow: hidden; }
+  .telemovel .wf-header { padding: .4rem; font-size: .7rem; }
+  .telemovel .wf-header nav { gap: .2rem; }
+  .telemovel .wf-header { flex-direction: column; gap: .3rem; }
+  .telemovel .wf-header nav span { font-size: .6rem; padding: 0 .3rem; white-space: nowrap; }
+  .telemovel .wf-sec { padding: .7rem; text-align: center; }
+  .telemovel .x-img { width: 90px; height: 90px; margin: 0 auto .5rem; }
+  .telemovel .cartoes { grid-template-columns: 1fr; }
+  .lista-notas { max-width: 380px; font-size: .9rem; }
+
+  /* 5. Tabela de estados */
+  table { width: 100%; border-collapse: collapse; background: #fff; font-size: .9rem; }
+  th, td { border: 1px solid var(--linha); padding: .5rem .6rem; text-align: left; vertical-align: top; }
+  th { background: var(--caixa-escura); }
+  code { background: var(--caixa); padding: 0 .25rem; border-radius: 3px; font-size: .85em; }
+
+  @media (max-width: 720px) {
+    .mapa .ramos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hero { grid-template-columns: 1fr; }
+    .cartoes, .cartoes.dois { grid-template-columns: 1fr; max-width: none; }
+    .wf-header { flex-direction: column; gap: .4rem; }
+    .tabela-wrap { overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+<main class="pagina">
+  <h1>MiniProj1 — Wireframe de baixa fidelidade</h1>
+  <p class="sub">SPA do currículo vitae de António Joaquim José · Vue 3 + Vite · página única (<code>index.html</code>)</p>
+
+  <ul class="indice" aria-label="Índice do wireframe">
+    <li><a href="#mapa">1. Mapa de navegação</a></li>
+    <li><a href="#desktop">2. Vista desktop</a></li>
+    <li><a href="#modal">3. Janela modal</a></li>
+    <li><a href="#mobile">4. Vista mobile</a></li>
+    <li><a href="#estados">5. Estados da interface</a></li>
+  </ul>
+
+  <!-- 1. MAPA DE NAVEGAÇÃO -->
+  <section id="mapa">
+    <h2>1. Mapa de navegação</h2>
+    <div class="mapa">
+      <div class="no raiz">index.html (SPA)<br><span class="rot">cabeçalho fixo + rodapé</span></div>
+      <div class="seta" aria-hidden="true">▼ links em âncora (scroll suave, sem recarregar)</div>
+      <div class="ramos">
+        <div class="ramo">
+          <div class="no">#quem-sou-eu<br><span class="rot">Quem Sou Eu?</span></div>
+          <div class="seta" aria-hidden="true">▼</div>
+          <div class="modais"><span class="no modal">Ver o que faço → #o-que-faco</span></div>
+        </div>
+        <div class="ramo">
+          <div class="no">#o-que-faco<br><span class="rot">O que faço?</span></div>
+          <div class="seta" aria-hidden="true">▼ abre modal</div>
+          <div class="modais">
+            <span class="no modal">Professor</span>
+            <span class="no modal">Web e Mobile</span>
+            <span class="no modal">Direção Comercial</span>
+          </div>
+        </div>
+        <div class="ramo">
+          <div class="no">#hobbies<br><span class="rot">Hobbies</span></div>
+          <div class="seta" aria-hidden="true">▼ abre modal</div>
+          <div class="modais">
+            <span class="no modal">Música</span>
+            <span class="no modal">Futebol</span>
+          </div>
+        </div>
+        <div class="ramo">
+          <div class="no">Rodapé<br><span class="rot">Identidade virtual</span></div>
+          <div class="seta" aria-hidden="true">▼ links externos</div>
+          <div class="modais">
+            <span class="no modal">Facebook</span>
+            <span class="no modal">GitHub</span>
+            <span class="no modal">mailto:</span>
+            <span class="no modal">tel:</span>
+          </div>
+        </div>
+      </div>
+      <p class="nota">Toda a navegação acontece na mesma página: âncoras internas para as secções e janelas modais para os detalhes. Não há router nem recarregamentos.</p>
+    </div>
+  </section>
+
+  <!-- 2. VISTA DESKTOP -->
+  <section id="desktop">
+    <h2>2. Vista desktop (≥ 860px)</h2>
+    <div class="wf desktop">
+      <div class="wf-header">
+        <strong>[AJ] António Joaquim José</strong>
+        <nav aria-label="Exemplo de menu">
+          <span class="ativo">Quem Sou Eu?</span><span>O que faço?</span><span>Hobbies</span>
+        </nav>
+      </div>
+
+      <div class="wf-sec">
+        <span class="rot">section#quem-sou-eu</span>
+        <div class="hero">
+          <div class="x-img redonda" role="img" aria-label="Espaço para a fotografia"></div>
+          <div>
+            <h3>H1 · António Joaquim José</h3>
+            <div class="rot">Professor · Engenheiro de Software</div>
+            <h3 style="margin-top:.6rem">H2 · Quem Sou Eu?</h3>
+            <div class="linha-txt"></div><div class="linha-txt m"></div><div class="linha-txt c"></div>
+            <div class="etiquetas"><span>Física de Partículas</span><span>Relatividade</span><span>Eletricidade</span><span>Web &amp; Mobile</span></div>
+            <span class="btn cheio">Ver o que faço</span> <span class="btn">Contactar</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-sec">
+        <span class="rot">section#o-que-faco</span>
+        <h3>H2 · O que faço?</h3>
+        <div class="linha-txt m"></div>
+        <div class="cartoes" style="margin-top:.6rem">
+          <div class="cartao"><div class="icone"></div><strong>Professor</strong><div class="linha-txt"></div><span class="btn cheio">Ver detalhes</span></div>
+          <div class="cartao"><div class="icone"></div><strong>Desenvolvimento Web e Mobile</strong><div class="linha-txt"></div><span class="btn cheio">Ver detalhes</span></div>
+          <div class="cartao"><div class="icone"></div><strong>Direção Comercial</strong><div class="linha-txt"></div><span class="btn cheio">Ver detalhes</span></div>
+        </div>
+      </div>
+
+      <div class="wf-sec">
+        <span class="rot">section#hobbies</span>
+        <h3>H2 · Hobbies</h3>
+        <div class="linha-txt c"></div>
+        <div class="cartoes dois" style="margin-top:.6rem">
+          <div class="cartao"><div class="icone"></div><strong>Música</strong><div class="linha-txt"></div><span class="btn cheio">Ver detalhes</span></div>
+          <div class="cartao"><div class="icone"></div><strong>Futebol</strong><div class="linha-txt"></div><span class="btn cheio">Ver detalhes</span></div>
+        </div>
+      </div>
+
+      <div class="wf-footer">
+        <span class="rot">footer · Identidade virtual</span>
+        <div class="icones-sociais"><span>f</span><span>gh</span><span>@</span><span>tel</span></div>
+        <div class="rot">© Ano · António Joaquim José</div>
+      </div>
+    </div>
+    <p class="nota">Cabeçalho <strong>sticky</strong>; o link da secção visível fica destacado (IntersectionObserver + <code>aria-current="true"</code>). Cartões em grelha de 3 colunas.</p>
+  </section>
+
+  <!-- 3. JANELA MODAL -->
+  <section id="modal">
+    <h2>3. Janela modal</h2>
+    <div class="modal-demo">
+      <span class="rot fundo-rot">fundo escurecido · clique fecha (@click.self)</span>
+      <div class="modal-caixa" role="img" aria-label="Exemplo de janela modal">
+        <div class="modal-cab"><strong>H2 · Título do cartão</strong><span class="fechar">×</span></div>
+        <div class="linha-txt m"></div>
+        <ul><li>Detalhe 1</li><li>Detalhe 2</li><li>Detalhe 3</li></ul>
+      </div>
+    </div>
+    <p class="nota">Componente <code>AppModal</code> reutilizável: <code>&lt;Teleport to="body"&gt;</code> + <code>&lt;Transition&gt;</code>; <code>role="dialog"</code>, <code>aria-modal="true"</code>, <code>aria-labelledby</code> → título. Fecha com ×, clique no fundo ou <kbd>Esc</kbd>. Bloqueia o scroll do body e devolve o foco ao botão de origem.</p>
+  </section>
+
+  <!-- 4. VISTA MOBILE -->
+  <section id="mobile">
+    <h2>4. Vista mobile (&lt; 640px)</h2>
+    <div class="mobile-wrap">
+      <div class="telemovel">
+        <div class="ecra">
+          <div class="wf-header">
+            <strong>[AJ]</strong>
+            <nav aria-label="Exemplo de menu mobile"><span class="ativo">Quem Sou Eu?</span><span>O que faço?</span><span>Hobbies</span></nav>
+          </div>
+          <div class="wf-sec">
+            <div class="x-img redonda" role="img" aria-label="Espaço para a fotografia"></div>
+            <strong style="font-size:.85rem">H1 · Nome</strong>
+            <div class="linha-txt"></div><div class="linha-txt m" style="margin-inline:auto"></div>
+            <span class="btn cheio">Ver o que faço</span>
+          </div>
+          <div class="wf-sec" style="text-align:left">
+            <strong style="font-size:.85rem">H2 · O que faço?</strong>
+            <div class="cartoes" style="margin-top:.4rem">
+              <div class="cartao"><div class="icone"></div><strong>Professor</strong><div class="linha-txt"></div></div>
+              <div class="cartao"><div class="icone"></div><strong>Web e Mobile</strong><div class="linha-txt"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="lista-notas">
+        <li>Os cartões passam a <strong>uma coluna</strong> abaixo de 640px.</li>
+        <li>Na secção Quem Sou Eu, a foto fica por cima do texto, centrada.</li>
+        <li>O nome desaparece do cabeçalho; fica só o monograma e os 3 links.</li>
+        <li>A modal ocupa quase toda a largura (margem de 1rem).</li>
+        <li>Sem scroll horizontal; alvos de toque com pelo menos 40px.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. ESTADOS DA INTERFACE -->
+  <section id="estados">
+    <h2>5. Estados da interface</h2>
+    <div class="tabela-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Elemento</th><th scope="col">Estado</th><th scope="col">Aparência / comportamento</th><th scope="col">Acionado por</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Link do menu</td><td>Normal</td><td>Texto branco sobre azul escuro</td><td>—</td></tr>
+          <tr><td>Link do menu</td><td>Hover</td><td>Fundo branco translúcido</td><td>Rato por cima</td></tr>
+          <tr><td>Link do menu</td><td>Ativo</td><td>Fundo vermelho, negrito, <code>aria-current="true"</code></td><td>Secção visível (IntersectionObserver) ou clique</td></tr>
+          <tr><td>Qualquer elemento interativo</td><td>Foco</td><td>Contorno de 3px bem visível (<code>:focus-visible</code>)</td><td>Teclado (Tab)</td></tr>
+          <tr><td>Cartão</td><td>Hover / foco interno</td><td>Sobe 3px, sombra mais forte, borda superior vermelha</td><td>Rato ou foco no botão</td></tr>
+          <tr><td>Botão "Ver detalhes"</td><td>Pressionado</td><td>Abre a modal com o conteúdo do cartão</td><td>Clique, Enter ou Espaço</td></tr>
+          <tr><td>Modal</td><td>Fechada</td><td>Não existe no DOM; scroll da página livre</td><td>Estado inicial</td></tr>
+          <tr><td>Modal</td><td>A abrir / a fechar</td><td>Fade + ligeiro deslize (200ms); desativado com <code>prefers-reduced-motion</code></td><td><code>&lt;Transition&gt;</code></td></tr>
+          <tr><td>Modal</td><td>Aberta</td><td>Fundo escurecido, foco no botão ×, Tab preso na janela, body sem scroll</td><td>Botão "Ver detalhes"</td></tr>
+          <tr><td>Modal</td><td>Fechar</td><td>Remove a modal e devolve o foco ao botão de origem</td><td>×, clique no fundo ou Esc</td></tr>
+          <tr><td>Ícone social</td><td>Hover</td><td>Fundo vermelho, sobe 2px</td><td>Rato por cima</td></tr>
+          <tr><td>Link "Saltar para o conteúdo"</td><td>Foco</td><td>Aparece no canto superior esquerdo</td><td>Primeiro Tab da página</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+</body>
+</html>
