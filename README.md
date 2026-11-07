@@ -140,11 +140,15 @@ O nome do ficheiro pode ser alterado em `src/data/cv.js` (`perfil.foto`).
 
 ### Opção A — GitHub Actions (recomendada)
 
-1. Cria o ficheiro `.github/workflows/deploy.yml` com o conteúdo abaixo e faz commit/push.
-2. No GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-3. Cada push para `main` publica o site em `https://<utilizador>.github.io/<repositório>/`.
+O workflow já está no projeto, em `.github/workflows/deploy.yml` (conteúdo abaixo).
+
+1. No GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. Em **Actions → Publicar no GitHub Pages**, carrega em **Run workflow** (só na primeira vez).
+3. A partir daí, cada push para `main` publica o site em `https://tonyhih.github.io/Miniprojeto1/`.
 
 ```yaml
+# Publica o site no GitHub Pages a cada push para "main".
+# Requer: Settings → Pages → Build and deployment → Source: GitHub Actions
 name: Publicar no GitHub Pages
 
 on:
@@ -166,12 +170,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
-      - run: npm run build
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Compilar
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -183,7 +195,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Publicar
+        id: deployment
         uses: actions/deploy-pages@v4
 ```
 
